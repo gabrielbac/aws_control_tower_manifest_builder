@@ -38,6 +38,14 @@ Quick start
 3. Run ``aws_control_tower_manifest_builder --input-cf sample_templates --input-scp sample_scp --output output_manifest``
     Note: the sample template includes incorrecly formatted templates.
 
+Local test (to be replace by tox)
+--------
+
+1. Clone the repo
+2. ``make venv``
+3. ``source venv/bin/activate``
+4. ``make local-install``
+5. ``make local-test``
 
 * Cloud Formation templates require a metadata section with the following info:
 
