@@ -1,0 +1,76 @@
+import sys
+import os
+import argparse
+import aws_control_tower_manifest_builder.aws_control_tower_manifest_builder as aws_control_tower_manifest_builder
+
+# TODO: adding final schema validation
+# TODO: Read me and Docs. connect github and read the docs account.
+# TODO: Add unit test
+
+
+def dir_path(string):
+    if os.path.isdir(string):
+        return string
+    else:
+        raise NotADirectoryError(string)
+
+
+def main():
+    """Console script for aws_control_tower_manifest_builder."""
+    parser = argparse.ArgumentParser(
+        description="Produces the manifest.yaml file that works as input \
+            for AWS Control Tower"
+    )
+
+    parser.add_argument(
+        "--abort-if-error",
+        "-a",
+        default=False,
+        action="store_true",
+        help="If set, does not produce the manifest file if any of the input \
+            files could not be processed",
+    )
+    parser.add_argument(
+        "--default-region",
+        "-r",
+        type=str,
+        help="Default region for templates with no regio. Default us-east-1",
+        default="us-east-1",
+    )
+
+    parser.add_argument(
+        "--input-cf",
+        "-c",
+        metavar="/path/",
+        type=dir_path,
+        required=True,
+        help="the path to the directory containing the cloud formation input \
+            files",
+    )
+
+    parser.add_argument(
+        "--input-scp",
+        "-s",
+        metavar="/path/",
+        type=dir_path,
+        required=True,
+        help="the path to the directory containing the service control policy \
+            input files",
+    )
+
+    parser.add_argument(
+        "--output",
+        "-o",
+        metavar="/path/",
+        type=dir_path,
+        help="the path to store the output manifest.yaml file",
+    )
+
+    args = parser.parse_args()
+    print(args)
+
+    aws_control_tower_manifest_builder.main(args)
+
+
+if __name__ == "__main__":
+    sys.exit(main())  # pragma: no cover

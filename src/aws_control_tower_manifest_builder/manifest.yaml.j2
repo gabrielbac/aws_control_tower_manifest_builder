@@ -1,0 +1,44 @@
+---
+{# AWS CT manifest auto-genrated -#}
+region: {{ region }}
+version: {{ date }}
+resources: # List of resources
+{%- for resource in resources %}
+  - name: {{ resource.name }}
+    {%- if resource.description %}
+    description: {{ resource.description }}
+    {%- endif %}
+    resource_file: {{ resource.resource_file }}    #<String> [Local File Path, S3 URL]
+    deployment_targets: # account and/or organizational unit names
+      {%- if resource.accounts %}
+      accounts: # array of strings, [0-9]{12}
+      {%- for account in resource.accounts %}
+        - {{ account }}
+      {%- endfor %} 
+      {%- endif %}
+      {%- if resource.organizational_units %}
+      organizational_units: #array of strings
+      {%- for ou in resource.organizational_units %}
+        - {{ ou }}
+      {%- endfor %} 
+      {%- endif %}
+    deploy_method: {{ resource.deploy_method }} # scp | stack_set
+    {%- if resource.parameters %}
+    parameters: # List of parameters [SSM, Alfred, Values]
+      {%- for parameter in resource.parameters %}
+      - parameter_key: {{ parameter.parameter_key }}
+        parameter_value: {{ parameter.parameter_value }}
+      {%- endfor %} 
+    {%- endif %}
+    {%- if resource.export_outputs %}
+      {%- for output in resource.export_outputs %}
+    export_outputs: # list of ssm parameters to store output values
+      - name: {{ output.name }}
+        value: {{ output.value }}
+      {%- endfor %} 
+    {%- endif %}
+    regions:
+    {%- for region in resource.regions %}
+      - {{ region }}
+    {%- endfor %} 
+{%- endfor %} 

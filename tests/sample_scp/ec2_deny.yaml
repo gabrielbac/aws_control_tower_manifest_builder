@@ -1,0 +1,6 @@
+Metadata:
+  manifest_parameters:
+    name: ec2_deny
+    accounts: ["123456789012", "987456123989"]
+    organizational_units: ["dev", "prod"]
+    regions: ["us-east-1" , "us-east-2"]

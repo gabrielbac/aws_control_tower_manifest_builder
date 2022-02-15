@@ -1,0 +1,5 @@
+Metadata:
+  manifest_parameters:
+    # missing accounts or OUs
+    description: "Template to deploy baseline IAM resources"
+    regions: ["us-east-1" , "us-east-2"]

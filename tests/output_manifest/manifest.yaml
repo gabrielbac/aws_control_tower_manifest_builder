@@ -1,0 +1,72 @@
+region: us-east-1
+version: 22-02-15
+resources:
+- name: detailed_template
+  resource_file: tests/sample_templates/cf_template_detailed.yaml
+  deployment_targets:
+    accounts:
+    - 123456789012
+    - 987456123989
+    organizational_units:
+    - dev
+    - prod
+  deploy_method: stack_set
+  parameters:
+  - parameter_key: parameter1
+    parameter_value: value1
+  - parameter_key: parameter2
+    parameter_value: value2
+  export_outputs:
+  - name: /org/member/test-ssm/app-id
+    value: $[output_ApplicationId]
+  regions:
+  - us-east-1
+  - us-east-2
+- name: templateLocalIAM
+  description: Template to deploy baseline IAM resources
+  resource_file: tests/sample_templates/cf_template_local.yaml
+  deployment_targets:
+    accounts:
+    - 123456789012
+    - 987456123989
+    organizational_units:
+    - dev
+    - prod
+  deploy_method: stack_set
+  regions:
+  - us-east-1
+  - us-east-2
+- name: cf_template_minimal
+  resource_file: tests/sample_templates/cf_template_minimal.yaml
+  deployment_targets:
+    accounts:
+    - 123456789012
+    - 987456123989
+  deploy_method: stack_set
+  regions:
+- name: testS3
+  resource_file: https://s3.amazonaws.com/solutions-reference/customizations-for-aws-control-tower/latest/custom-control-tower-initiation.template
+  deployment_targets:
+    accounts:
+    - 123456789012
+    - 987456123989
+    organizational_units:
+    - dev
+    - prod
+  deploy_method: stack_set
+  regions:
+  - us-east-1
+  - us-east-2
+- name: ec2_deny
+  resource_file: tests/sample_scp/ec2_deny.yaml
+  deployment_targets:
+    accounts:
+    - 123456789012
+    - 987456123989
+    organizational_units:
+    - dev
+    - prod
+  deploy_method: scp
+  regions:
+  - us-east-1
+  - us-east-2

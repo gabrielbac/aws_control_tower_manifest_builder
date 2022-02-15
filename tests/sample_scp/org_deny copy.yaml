@@ -1,0 +1,7 @@
+Metadata:
+  manifest_parameters:
+    name: org_deny
+    accounts: [123, 456]
+    organizational_units: ["dev", "prod"]
+    deploy_method: stackset
+    regions: ["us-east-1" , "us-east-2"]

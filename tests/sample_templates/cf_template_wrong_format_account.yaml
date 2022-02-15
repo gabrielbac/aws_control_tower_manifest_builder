@@ -1,0 +1,7 @@
+Metadata:
+  manifest_parameters:
+    name: templateLocalS3
+    description: "Template to deploy S3 buckets"
+    accounts: ["123456789012", "123"]
+    organizational_units: ["dev", "prod"]
+    regions: ["us-east-1" , "us-east-2"]

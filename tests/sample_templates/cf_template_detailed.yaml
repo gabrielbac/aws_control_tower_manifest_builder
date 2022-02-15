@@ -1,0 +1,15 @@
+Metadata:
+  manifest_parameters:
+    name: detailed_template # Optional. Defaults to the file name. a-z, A-Z, 0-9, and an underscore (_).
+    deploy_method: stackset # Optional. All file in the template directory use "stackset" and in policy direcroty use "scp".
+    accounts: ["123456789012", "987456123989"] # Requires "accounts" and/or "organizational_unit". [0-9]{12}
+    organizational_units: ["dev", "prod"] # Requires "accounts" and/or "organizational_unit".
+    regions: ["us-east-1" , "us-east-2"] # Optional. Defaults to us-east-1.
+    parameters: # Optional. List of parameters [SSM, Alfred, Values]
+      - parameter_key: parameter1
+        parameter_value: value1
+      - parameter_key: parameter2
+        parameter_value: value2
+    export_outputs: # Optional. list of ssm parameters to store output values
+      - name: /org/member/test-ssm/app-id
+        value: $[output_ApplicationId] 
