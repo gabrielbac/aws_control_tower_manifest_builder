@@ -105,6 +105,10 @@ install: clean ## install the package to the active Python's site-packages
 	pip uninstall -y aws_control_tower_manifest_builder
 	python setup.py install
 
+local-install: ## install the package to the venv
+	pip uninstall -y aws_control_tower_manifest_builder
+	python setup.py install
+
 make local-test:
 	aws_control_tower_manifest_builder --input-cf tests/sample_templates \
 	--input-scp tests/sample_scp \
