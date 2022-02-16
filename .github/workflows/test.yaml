@@ -1,0 +1,41 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python application
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.x', 'pypy-3.7', 'pypy-3.8']
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install setuptools wheel twine
+        python setup.py install
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        flake8 ./src --ignore=E501,W503
+    - name: Lint with pylint
+      run: |
+        pip install pylint
+        pylint --disable=E0101,R1710,W0511 src/aws_control_tower_manifest_builder
+    - name: Test with unittest
+      run: |
+        pip install pytest
+        python -m unittest discover -v

@@ -1,13 +1,23 @@
-import ruamel.yaml
+"""Class for parsing and structuring YAML and JSON"""
 import os
 import re
-import aws_control_tower_manifest_builder.logger as logger
+import ruamel.yaml
+from aws_control_tower_manifest_builder import logger
 
 log = logger.get_logger(__name__)
 
 
 class ManifestInput:
+    """Base Class for SCP and Manifest Objects"""
+
     def __init__(self, filename, region):
+        """
+        Base Object to structure Manifest and SCP objects
+
+        Parameters:
+        filename(string): Name of file to be loaded
+        region(string of aws region): aws region
+        """
         self.filename = filename
         self.metadata_dict = (
             self.load_yaml(self.filename, True)
@@ -30,7 +40,7 @@ class ManifestInput:
         if "accounts" in self.metadata_dict.keys():
             for account in self.metadata_dict.get("accounts"):
                 if not re.match("[0-9]{12}", account):
-                    self.error = "Account provided {} is not 12 digit".format(account)
+                    self.error = f"Account provided {account} is not 12 digit"
         if "resource_file" not in self.metadata_dict.keys():
             self.metadata_dict["resource_file"] = self.filename
 
@@ -44,43 +54,55 @@ class ManifestInput:
         yaml.default_flow_style = False
         try:
             if is_file:
-                with open(content) as yaml_file:
+                with open(content, encoding="utf-8") as yaml_file:
                     yaml_dict = yaml.load(yaml_file.read())
             else:
                 yaml_dict = yaml.load(content)
         except (IOError, ruamel.yaml.YAMLError) as err:
-            log.error("Unable to open {} - {}".format(content, err))
+            log.error(f"Unable to open {content} - {err}")
         if yaml_dict == {}:
             log.error("Error")
             return False
         return yaml_dict
 
     @staticmethod
-    def write_yaml(filename: str, content: dict) -> None:
-        """Writes yaml file
-
-        returns: none
+    def write_yaml(filename: str, content: dict):
+        """
+        Writes yaml file
         """
         yaml = ruamel.yaml.YAML()
         yaml.default_flow_style = False
         try:
-            with open(filename, "w") as output_file:
+            with open(filename, "w", encoding="utf-8") as output_file:
                 yaml.dump(content, output_file)
             output_file.close()
         except IOError as err:
-            log.error("Unable to open {} - {}".format(filename, err))
-        return
+            log.error(f"Unable to open {filename} - {err}")
 
 
 class CfTemplate(ManifestInput):
+    """
+    Object for structuring CFN Templates
+    """
+
     def __init__(self, filename, region):
+        """
+        Object for structuring CFN Templates
+        """
         self.deploy_method = "stack_set"
         super().__init__(filename, region)
         self.metadata_dict["deploy_method"] = self.deploy_method
 
 
 class Scp(ManifestInput):
+    """
+    Object for structuring CFN Templates
+    """
+
     def __init__(self, filename, region):
+        """
+        Object for structuring CFN Templates
+        """
         self.deploy_method = "scp"
         super().__init__(filename, region)
         self.filename = filename.replace("yaml", "json")

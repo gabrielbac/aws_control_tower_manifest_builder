@@ -2,12 +2,11 @@
 
 import os
 import sys
-from jinja2 import Environment, FileSystemLoader
 from datetime import date
+from jinja2 import Environment, FileSystemLoader
 from prettytable import PrettyTable
-
-import aws_control_tower_manifest_builder.manifest_input as manifest_input
-import aws_control_tower_manifest_builder.logger as logger
+from aws_control_tower_manifest_builder import manifest_input
+from aws_control_tower_manifest_builder import logger
 
 
 log = logger.setup_applevel_logger()
@@ -16,20 +15,23 @@ JINJA_MANIFEST_PATH = os.path.dirname(__file__)
 
 
 def main(args: None):
+    """
+    Process user arguments and render Control Tower manifest
+
+    Parameters:
+    args(dictionary): dicitonary of arguments
+    {"input_cf": PATH}
+    """
 
     if args:
-        template_path = args.input_cf
-        policies_path = args.input_scp
-        output_path = args.output
-        output_manifest_file = os.path.join(output_path, "manifest.yaml")
+        output_manifest_file = os.path.join(args.output, "manifest.yaml")
         default_region = "us-east-1"
-        ABORT_IF_ERROR = args.abort_if_error
 
     final_report = PrettyTable(["Type", "Successes", "Failures", "Totals"])
 
-    log.info("Processing CF Templates from {}".format(template_path))
+    log.info("Processing CF Templates from %s", args.input_cf)
     cf_resources, cf_successes, cf_failures = loop_through_files(
-        template_path, manifest_input.CfTemplate, default_region
+        args.input_cf, manifest_input.CfTemplate, default_region
     )
     final_report.add_row(
         [
@@ -40,9 +42,9 @@ def main(args: None):
         ]
     )
 
-    log.info("Processing SCPs from {}".format(policies_path))
+    log.info("Processing SCPs from %s", args.input_scp)
     scp_resources, scp_successes, scp_failures = loop_through_files(
-        policies_path, manifest_input.Scp, default_region
+        args.input_scp, manifest_input.Scp, default_region
     )
     final_report.add_row(
         [
@@ -66,58 +68,69 @@ def main(args: None):
     data["region"] = default_region
     data["date"] = date.today().strftime("%y-%m-%d")
 
-    e = Environment(loader=FileSystemLoader(JINJA_MANIFEST_PATH))
-    template = e.get_template("manifest.yaml.j2")
-
-    manifest = template.render(data)
+    loaded_environment = Environment(loader=FileSystemLoader(JINJA_MANIFEST_PATH))
+    manifest = loaded_environment.get_template("manifest.yaml.j2").render(data)
     manifest_dict = manifest_input.ManifestInput.load_yaml(manifest, False)
 
     log.info(
-        "Results from procesing \n CF templates {} \n SCPs {}".format(
-            template_path, policies_path
-        )
+        "Results from procesing \n CF templates %s \n SCPs %s",
+        args.input_cf,
+        args.input_scp,
     )
     log.info(final_report)
 
-    if ABORT_IF_ERROR and (cf_failures + scp_failures) > 0:
+    if args.abort_if_error and (cf_failures + scp_failures) > 0:
         log.info("Skiping writing output YAML file due to failures")
         sys.exit(0)
-    log.info("Writing output YAML file {}".format(output_manifest_file))
+    log.info("Writing output YAML file %s", output_manifest_file)
     manifest_input.ManifestInput.write_yaml(output_manifest_file, manifest_dict)
 
 
-def loop_through_files(path: str, type: manifest_input, default_region: str) -> list:
+def loop_through_files(
+    path: str, manifest_type: manifest_input, default_region: str
+) -> list:
+    """
+    Loop through path and create list of either CfTemplate resources or SCPs
+
+    Parameters:
+    path(str): location of CFN or SCP
+    manifest_type(manifest_input): which current manifest_type [SCP or CFN] thats beeing looked for.
+
+    Return:
+    [resources(list), successes(int), failures(int)]
+    """
     resources = []
     successes = 0
     failures = 0
     for filename in os.scandir(path):
         if filename.is_file() and "yaml" in filename.name:
-            if type == manifest_input.CfTemplate or (
-                type == manifest_input.Scp
+            if manifest_type == manifest_input.CfTemplate or (
+                manifest_type == manifest_input.Scp
                 and os.path.exists(filename.path.replace("yaml", "json"))
             ):
-                input = type(filename.path, default_region)
-                if input.metadata_dict and not input.error:
-                    log.info("Processed .. {}".format(filename.path))
-                    resources.append(input.metadata_dict)
+                new_input = manifest_type(filename.path, default_region)
+                if new_input.metadata_dict and not new_input.error:
+                    log.info("Processed .. %s", filename.path)
+                    resources.append(new_input.metadata_dict)
                     successes += 1
                 else:
                     log.info(
-                        "Failed to Process .. {}, {}Error -> {}".format(
-                            filename.path, SPACING, input.error
-                        )
+                        "Failed to Process .. %s, %sError -> %s",
+                        filename.path,
+                        SPACING,
+                        new_input.error,
                     )
                     failures += 1
             else:
                 log.info(
-                    "Failed to Process .. {}, {}Error -> does not have corresponding \
-                    json file".format(
-                        filename.path, SPACING
-                    )
+                    "Failed to Process .. %s, %sError -> does not have corresponding \
+                    json file",
+                    filename.path,
+                    SPACING,
                 )
                 failures += 1
     return resources, successes, failures
 
 
 if __name__ == "__main__":
-    sys.exit(main())  # pragma: no cover
+    sys.exit(main(None))  # pragma: no cover
