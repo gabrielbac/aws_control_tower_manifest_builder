@@ -1,7 +1,9 @@
+"""Argparse CLI Functions"""
+
 import sys
 import os
 import argparse
-import aws_control_tower_manifest_builder.aws_control_tower_manifest_builder as aws_control_tower_manifest_builder
+from aws_control_tower_manifest_builder import aws_control_tower_manifest_builder
 
 # TODO: adding final schema validation
 # TODO: Read me and Docs. connect github and read the docs account.
@@ -9,10 +11,18 @@ import aws_control_tower_manifest_builder.aws_control_tower_manifest_builder as 
 
 
 def dir_path(string):
+    """
+    Determine if string is a path
+
+    Parameter:
+    string(string): string representation of a path
+
+    Return:
+    string(string): string representation of a path
+    """
     if os.path.isdir(string):
         return string
-    else:
-        raise NotADirectoryError(string)
+    raise NotADirectoryError(string)
 
 
 def main():
