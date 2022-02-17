@@ -29,9 +29,10 @@ Features
 * Reads Cloud Formation templates and Service Control Policies from specified directories and produces the AWS Control Tower manifest.yaml file.
 * See https://s3.amazonaws.com/solutions-reference/customizations-for-aws-control-tower/latest/customizations-for-aws-control-tower-developer-guide.pdf
 
+.. image:: Pipeline.drawio.svg
 
 Quick start
---------
+-----------
 
 1. Run ``pip install aws-control-tower-manifest-builder``
 2. Download sample template and SCPs from S3 "Add link". Extract to directory
@@ -39,7 +40,7 @@ Quick start
     Note: the sample template includes incorrecly formatted templates.
 
 Local test (to be replace by tox)
---------
+---------------------------------
 
 1. Clone the repo
 2. ``make venv``
