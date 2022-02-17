@@ -64,11 +64,13 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint/flake8: ## check style with flake8
-	flake8 --max-line-length 88 src tests
+	flake8 ./src ./test --ignore=E501,W503
 lint/black: ## check style with black
 	black --check src tests
+lint/pylint:
+	pylint --disable=E0101,R1710,W0511 src/aws_control_tower_manifest_builder
 
-lint: lint/flake8 lint/black ## check style
+lint: lint/flake8 lint/pylint lint/black ## check style
 
 test: ## run tests quickly with the default Python
 	PYTHONPATH=./aws_control_tower_manifest_builder python -m pytest
