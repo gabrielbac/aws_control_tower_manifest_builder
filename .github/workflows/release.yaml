@@ -1,4 +1,4 @@
-name: Test and Release Version
+name: Build and Release Version
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.x', 'pypy-3.7', 'pypy-3.8']
+        python-version: ['pypy-3.8']
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -23,19 +23,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
         python setup.py install
-    - name: Lint with flake8
-      run: |
-        pip install flake8
-        flake8 ./src --ignore=E501,W503
-    - name: Lint with pylint
-      run: |
-        pip install pylint
-        pylint --disable=E0101,R1710,W0511 src/aws_control_tower_manifest_builder
-    - name: Test with unittest
-      run: |
-        pip install pytest
-        python -m unittest discover -v
-      
     - name: Build and publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}

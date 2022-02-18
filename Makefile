@@ -107,6 +107,11 @@ install: clean ## install the package to the active Python's site-packages
 	pip uninstall -y aws_control_tower_manifest_builder
 	python setup.py install
 
+local-dist: ## builds source and wheel package
+	python setup.py sdist
+	python setup.py bdist_wheel
+	ls -l dist
+
 local-install: ## install the package to the venv
 	pip uninstall -y aws_control_tower_manifest_builder
 	python setup.py install
