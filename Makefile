@@ -1,6 +1,7 @@
 .PHONY: clean clean-build clean-pyc clean-test coverage dist docs help install lint lint/flake8 lint/black venv
 .DEFAULT_GOAL := help
 VENV = venv
+VERSION := $(shell git describe --tags --abbrev=0 | sed -Ee 's/^v|-.*//')
 
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
@@ -107,6 +108,11 @@ install: clean ## install the package to the active Python's site-packages
 	pip uninstall -y aws_control_tower_manifest_builder
 	python setup.py install
 
+local-dist: ## builds source and wheel package
+	python setup.py sdist
+	python setup.py bdist_wheel
+	ls -l dist
+
 local-install: ## install the package to the venv
 	pip uninstall -y aws_control_tower_manifest_builder
 	python setup.py install
@@ -115,3 +121,14 @@ make local-test:
 	aws_control_tower_manifest_builder --input-cf tests/sample_templates \
 	--input-scp tests/sample_scp \
 	--output tests/output_manifest
+
+SEMVER_TYPES := major minor patch
+BUMP_TARGETS := $(addprefix bump-,$(SEMVER_TYPES))
+.PHONY: $(BUMP_TARGETS)
+$(BUMP_TARGETS): 
+	$(eval bump_type := $(strip $(word 2,$(subst -, ,$@))))
+	bumpversion --verbose --current-version $(VERSION) $(bump_type) setup.py
+    #$(eval f := $(words $(shell a="$(SEMVER_TYPES)";echo $${a/$(bump_type)*/$(bump_type)} )))
+    #@echo -n v
+    #@echo $(VERSION) | awk -F. -v OFS=. -v f=$(f) '{ $$f++ } 1'
+	
