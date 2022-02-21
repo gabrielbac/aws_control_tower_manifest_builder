@@ -1,5 +1,5 @@
-aws_control_tower_manifest_builder
-==================================
+src
+===
 
 .. toctree::
    :maxdepth: 4

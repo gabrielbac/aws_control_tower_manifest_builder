@@ -6,14 +6,15 @@ AWS Control Tower Manifest Builder
 .. image:: https://img.shields.io/pypi/v/aws_control_tower_manifest_builder.svg
         :target: https://pypi.python.org/pypi/aws_control_tower_manifest_builder
 
-.. image:: https://img.shields.io/travis/gabrielbac/aws_control_tower_manifest_builder.svg
-        :target: https://travis-ci.com/gabrielbac/aws_control_tower_manifest_builder
+.. image:: https://github.com/gabrielbac/aws_control_tower_manifest_builder/actions/workflows/test.yaml/badge.svg
+        :target: https://github.com/gabrielbac/aws_control_tower_manifest_builder/actions/workflows/test.yaml/
+
+.. image:: https://github.com/gabrielbac/aws_control_tower_manifest_builder/actions/workflows/release.yaml/badge.svg
+        :target: https://github.com/gabrielbac/aws_control_tower_manifest_builder/actions/workflows/release.yaml/
 
 .. image:: https://readthedocs.org/projects/aws-control-tower-manifest-builder/badge/?version=latest
         :target: https://aws-control-tower-manifest-builder.readthedocs.io/en/latest/?version=latest
         :alt: Documentation Status
-
-
 
 
 Python package to automatically build the AWS Control Tower Manifest given Cloud Formation templates and SCPs as input.
@@ -29,7 +30,7 @@ Features
 * Reads Cloud Formation templates and Service Control Policies from specified directories and produces the AWS Control Tower manifest.yaml file.
 * See https://s3.amazonaws.com/solutions-reference/customizations-for-aws-control-tower/latest/customizations-for-aws-control-tower-developer-guide.pdf
 
-.. image:: Pipeline.drawio.svg
+.. image:: Pipeline.drawio.png
 
 Quick start
 -----------
@@ -44,9 +45,7 @@ Local test (to be replace by tox)
 
 1. Clone the repo
 2. ``make venv``
-3. ``source venv/bin/activate``
-4. ``make local-install``
-5. ``make local-test``
+3. ``make local-test``
 
 * Cloud Formation templates require a metadata section with the following info:
 

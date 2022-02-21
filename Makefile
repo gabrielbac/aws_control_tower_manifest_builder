@@ -74,13 +74,13 @@ lint/pylint:
 lint: lint/flake8 lint/pylint lint/black ## check style
 
 test: ## run tests quickly with the default Python
-	PYTHONPATH=./aws_control_tower_manifest_builder python -m pytest
+	PYTHONPATH=./aws_control_tower_manifest_builder python -m pytest -v
 
 test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source aws_control_tower_manifest_builder -m pytest
+	coverage run --source src/aws_control_tower_manifest_builder -m pytest
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
@@ -88,7 +88,7 @@ coverage: ## check code coverage quickly with the default Python
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/aws_control_tower_manifest_builder.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ aws_control_tower_manifest_builder
+	sphinx-apidoc -o docs/ src
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
@@ -117,7 +117,7 @@ local-install: ## install the package to the venv
 	pip uninstall -y aws_control_tower_manifest_builder
 	python setup.py install
 
-make local-test:
+make local-test: local-dist local-install
 	aws_control_tower_manifest_builder --input-cf tests/sample_templates \
 	--input-scp tests/sample_scp \
 	--output tests/output_manifest

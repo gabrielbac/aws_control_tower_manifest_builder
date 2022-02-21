@@ -19,6 +19,12 @@ class ManifestInput:
         region(string of aws region): aws region
         """
         self.filename = filename
+        file_dict = self.load_yaml(self.filename, True)
+        try:
+            file_dict["Metadata"]["manifest_parameters"]
+        except KeyError:
+            self.error = "File does not contain the required metadata"
+            return {}, self.error
         self.metadata_dict = (
             self.load_yaml(self.filename, True)
             .get("Metadata")
@@ -26,7 +32,6 @@ class ManifestInput:
         )
         self.name = os.path.basename(filename).split(".")[0]
         self.default_region = region
-        self.error = ""
         if "name" not in self.metadata_dict.keys():
             self.metadata_dict["name"] = self.name
         if "regions" not in self.metadata_dict.keys():
@@ -39,8 +44,10 @@ class ManifestInput:
             return {}, self.error
         if "accounts" in self.metadata_dict.keys():
             for account in self.metadata_dict.get("accounts"):
-                if not re.match("[0-9]{12}", account):
-                    self.error = f"Account provided {account} is not 12 digit"
+                if not isinstance(account, str):
+                    self.error = "Account provided is not a string"
+                elif not re.match("[0-9]{12}", account):
+                    self.error = "Account provided is not 12 digit"
         if "resource_file" not in self.metadata_dict.keys():
             self.metadata_dict["resource_file"] = self.filename
 
@@ -50,6 +57,7 @@ class ManifestInput:
 
         returns: dict
         """
+        yaml_dict = {}
         yaml = ruamel.yaml.YAML(typ="safe", pure=True)
         yaml.default_flow_style = False
         try:
@@ -60,9 +68,11 @@ class ManifestInput:
                 yaml_dict = yaml.load(content)
         except (IOError, ruamel.yaml.YAMLError) as err:
             log.error(f"Unable to open {content} - {err}")
-        if yaml_dict == {}:
-            log.error("Error")
-            return False
+            return yaml_dict
+        if yaml_dict is None:
+            log.error("Error, yaml is empty")
+            yaml_dict = {}
+        print(type(yaml_dict))
         return yaml_dict
 
     @staticmethod
@@ -89,6 +99,8 @@ class CfTemplate(ManifestInput):
         """
         Object for structuring CFN Templates
         """
+        self.error = ""
+        self.metadata_dict = {}
         self.deploy_method = "stack_set"
         super().__init__(filename, region)
         self.metadata_dict["deploy_method"] = self.deploy_method
@@ -103,7 +115,13 @@ class Scp(ManifestInput):
         """
         Object for structuring CFN Templates
         """
+        self.error = ""
         self.deploy_method = "scp"
+        self.metadata_dict = {}
+        file = filename.replace("yaml", "json")
+        if not os.path.exists(filename.replace("yaml", "json")):
+            print(f"lookign for {file} if exist ")
+            self.error = "File does not have corresponding json file"
         super().__init__(filename, region)
         self.filename = filename.replace("yaml", "json")
         self.metadata_dict["deploy_method"] = self.deploy_method

@@ -5,9 +5,8 @@ import sys
 from datetime import date
 from jinja2 import Environment, FileSystemLoader
 from prettytable import PrettyTable
-from aws_control_tower_manifest_builder import manifest_input
-from aws_control_tower_manifest_builder import logger
-
+from . import manifest_input
+from . import logger
 
 log = logger.setup_applevel_logger()
 SPACING = "\n\t\t\t\t\t\t\t\t\t"
@@ -103,30 +102,18 @@ def loop_through_files(
     successes = 0
     failures = 0
     for filename in os.scandir(path):
-        if filename.is_file() and "yaml" in filename.name:
-            if manifest_type == manifest_input.CfTemplate or (
-                manifest_type == manifest_input.Scp
-                and os.path.exists(filename.path.replace("yaml", "json"))
-            ):
-                new_input = manifest_type(filename.path, default_region)
-                if new_input.metadata_dict and not new_input.error:
-                    log.info("Processed .. %s", filename.path)
-                    resources.append(new_input.metadata_dict)
-                    successes += 1
-                else:
-                    log.info(
-                        "Failed to Process .. %s, %sError -> %s",
-                        filename.path,
-                        SPACING,
-                        new_input.error,
-                    )
-                    failures += 1
+        if filename.is_file() and ".yaml" in filename.name:
+            new_input = manifest_type(filename.path, default_region)
+            if new_input.metadata_dict and not new_input.error:
+                log.info("Processed .. %s", filename.path)
+                resources.append(new_input.metadata_dict)
+                successes += 1
             else:
                 log.info(
-                    "Failed to Process .. %s, %sError -> does not have corresponding \
-                    json file",
+                    "Failed to Process .. %s, %sError -> %s",
                     filename.path,
                     SPACING,
+                    new_input.error,
                 )
                 failures += 1
     return resources, successes, failures
