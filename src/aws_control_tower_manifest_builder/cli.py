@@ -5,9 +5,10 @@ import os
 import argparse
 from aws_control_tower_manifest_builder import aws_control_tower_manifest_builder
 
+# TODO: Add verification for inputs
+# TODO: Fix Tox. Add tox
 # TODO: adding final schema validation
 # TODO: Read me and Docs. connect github and read the docs account.
-# TODO: Add unit test
 
 
 def dir_path(string):

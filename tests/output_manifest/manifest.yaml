@@ -1,5 +1,5 @@
 region: us-east-1
-version: 22-02-16
+version: 22-02-21
 resources:
 - name: detailed_template
   resource_file: tests/sample_templates/cf_template_detailed.yaml

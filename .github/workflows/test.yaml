@@ -28,12 +28,12 @@ jobs:
     - name: Lint with flake8
       run: |
         pip install flake8
-        flake8 ./src --ignore=E501,W503
+        flake8 ./src ./tests --ignore=E501,W503
     - name: Lint with pylint
       run: |
         pip install pylint
         pylint --disable=E0101,R1710,W0511 src/aws_control_tower_manifest_builder
-    - name: Test with unittest
+    - name: Test with pytest
       run: |
         pip install pytest
-        python -m unittest discover -v
+        python -m pytest -v
