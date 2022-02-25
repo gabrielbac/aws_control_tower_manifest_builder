@@ -65,7 +65,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint/flake8: ## check style with flake8
-	flake8 ./src ./test --ignore=E501,W503
+	flake8 ./src ./tests --ignore=E501,W503
 lint/black: ## check style with black
 	black --check src tests
 lint/pylint:

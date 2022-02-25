@@ -178,5 +178,5 @@ def test_write_yaml():
     """Test that write yaml"""
     real_file = "tests/output_manifest/fake_file.yaml"
     ManifestInput.write_yaml(real_file, {"hello"})
-    assert os.path.exists(real_file) == True
+    assert os.path.exists(real_file) is True
     os.remove("tests/output_manifest/fake_file.yaml")

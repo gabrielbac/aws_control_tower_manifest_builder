@@ -1,8 +1,5 @@
 """Tests for `aws_control_tower_manifest_builder.aws_control_tower_manifest_builder` package."""
 
-from asyncore import loop
-import os
-from black import re
 import pytest
 from src.aws_control_tower_manifest_builder.aws_control_tower_manifest_builder import (
     loop_through_files,
