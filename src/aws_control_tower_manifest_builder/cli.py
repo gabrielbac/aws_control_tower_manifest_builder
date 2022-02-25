@@ -26,17 +26,29 @@ def dir_path(string):
     """
     if os.path.isdir(string):
         return string
-    raise NotADirectoryError(f"Directory \'{string}\' does not exist")
+    raise NotADirectoryError(f"Directory '{string}' does not exist")
 
-def str2bool(v):
-    if isinstance(v, bool):
-        return v
-    if v.lower() == 'true':
+
+def str2bool(input_bool):
+    """
+    Determine if input is True or False
+
+    Parameter:
+    string(string): string representation of a bool
+
+    Return:
+    string(string): string representation of a bool
+    """
+    if isinstance(input_bool, bool):
+        return input_bool
+    if input_bool.lower() == "true":
         return True
-    elif v.lower() == 'false':
+    if input_bool.lower() == "false":
         return False
-    else:
-        raise argparse.ArgumentTypeError('Boolean value expected.')
+    raise argparse.ArgumentTypeError(
+        f"Boolean value expected. Received -> {input_bool}"
+    )
+
 
 def main():
     """Console script for aws_control_tower_manifest_builder."""
@@ -91,9 +103,12 @@ def main():
 
     try:
         args = parser.parse_args()
-    except Exception as e:
-        log.error(e)
-        sys.exit()  
+    except NotADirectoryError as error:
+        log.error(error)
+        sys.exit()
+    except argparse.ArgumentTypeError as error:
+        log.error(error)
+        sys.exit()
 
     aws_control_tower_manifest_builder.main(args)
 
