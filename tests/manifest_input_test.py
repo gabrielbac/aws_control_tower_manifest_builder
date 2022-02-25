@@ -154,14 +154,29 @@ file_input_data = [
 
 
 @pytest.mark.parametrize("file_name, error", file_input_data)
-def test_load_yaml(file_name, error, caplog):
+def test_load_yaml_file(file_name, error, caplog):
     """Test that load yaml throws error if file does not exists"""
     ManifestInput.load_yaml(file_name, True)
     assert error in caplog.text
 
 
-def test_write_yaml(caplog):
-    """Test that load yaml throws error if file does not exists"""
+def test_load_yaml_dict():
+    """Test that load yaml when input is string"""
+    string_dict = "{hello : bye}"
+    dict = ManifestInput.load_yaml(string_dict, False)
+    assert dict == {"hello": "bye"}
+
+
+def test_write_yaml_error(caplog):
+    """Test that write yaml throws error if file does not exists"""
     fake_file = "fake_dir/fake_file"
     ManifestInput.write_yaml(fake_file, {})
     assert f"Unable to open {fake_file}" in caplog.text
+
+
+def test_write_yaml():
+    """Test that write yaml"""
+    real_file = "tests/output_manifest/fake_file.yaml"
+    ManifestInput.write_yaml(real_file, {"hello"})
+    assert os.path.exists(real_file) == True
+    os.remove("tests/output_manifest/fake_file.yaml")
