@@ -1,6 +1,19 @@
 region: us-east-1
-version: 22-02-24
+version: 22-02-26
 resources:
+- name: testS3
+  resource_file: https://s3.amazonaws.com/solutions-reference/customizations-for-aws-control-tower/latest/custom-control-tower-initiation.template
+  deployment_targets:
+    accounts:
+    - 123456789012
+    - 987456123989
+    organizational_units:
+    - dev
+    - prod
+  deploy_method: stack_set
+  regions:
+  - us-east-1
+  - us-east-2
 - name: detailed_template
   resource_file: tests/sample_templates/cf_template_detailed.yaml
   deployment_targets:
@@ -44,19 +57,6 @@ resources:
     - 987456123989
   deploy_method: stack_set
   regions:
-- name: testS3
-  resource_file: https://s3.amazonaws.com/solutions-reference/customizations-for-aws-control-tower/latest/custom-control-tower-initiation.template
-  deployment_targets:
-    accounts:
-    - 123456789012
-    - 987456123989
-    organizational_units:
-    - dev
-    - prod
-  deploy_method: stack_set
-  regions:
-  - us-east-1
-  - us-east-2
 - name: ec2_deny
   resource_file: tests/sample_scp/ec2_deny.yaml
   deployment_targets:
