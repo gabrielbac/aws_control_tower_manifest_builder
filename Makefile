@@ -64,17 +64,21 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
+black:
+	black src tests
+
 lint/flake8: ## check style with flake8
-	flake8 ./src ./test --ignore=E501,W503
+	flake8 ./src ./tests --ignore=E501,W503
 lint/black: ## check style with black
 	black --check src tests
 lint/pylint:
 	pylint --disable=E0101,R1710,W0511 src/aws_control_tower_manifest_builder
+	pylint --disable=E0101,R1710,W0511,R0801,W0622 tests
 
 lint: lint/flake8 lint/pylint lint/black ## check style
 
 test: ## run tests quickly with the default Python
-	PYTHONPATH=./aws_control_tower_manifest_builder python -m pytest -v
+	PYTHONPATH=./aws_control_tower_manifest_builder python -m pytest -vv
 
 test-all: ## run tests on every Python version with tox
 	tox

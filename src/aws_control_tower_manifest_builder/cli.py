@@ -4,9 +4,12 @@ import sys
 import os
 import argparse
 from aws_control_tower_manifest_builder import aws_control_tower_manifest_builder
+from aws_control_tower_manifest_builder import logger
+
+log = logger.get_logger(__name__)
 
 # TODO: Add verification for inputs
-# TODO: Fix Tox. Add tox
+# TODO: Fix Tox. Add
 # TODO: adding final schema validation
 # TODO: Read me and Docs. connect github and read the docs account.
 
@@ -23,7 +26,28 @@ def dir_path(string):
     """
     if os.path.isdir(string):
         return string
-    raise NotADirectoryError(string)
+    raise NotADirectoryError(f"Directory '{string}' does not exist")
+
+
+def str2bool(input_bool):
+    """
+    Determine if input is True or False
+
+    Parameter:
+    string(string): string representation of a bool
+
+    Return:
+    string(string): string representation of a bool
+    """
+    if isinstance(input_bool, bool):
+        return input_bool
+    if input_bool.lower() == "true":
+        return True
+    if input_bool.lower() == "false":
+        return False
+    raise argparse.ArgumentTypeError(
+        f"Boolean value expected. Received -> {input_bool}"
+    )
 
 
 def main():
@@ -37,7 +61,7 @@ def main():
         "--abort-if-error",
         "-a",
         default=False,
-        action="store_true",
+        type=str2bool,
         help="If set, does not produce the manifest file if any of the input \
             files could not be processed",
     )
@@ -77,8 +101,14 @@ def main():
         help="the path to store the output manifest.yaml file",
     )
 
-    args = parser.parse_args()
-    print(args)
+    try:
+        args = parser.parse_args()
+    except NotADirectoryError as error:
+        log.error(error)
+        sys.exit()
+    except argparse.ArgumentTypeError as error:
+        log.error(error)
+        sys.exit()
 
     aws_control_tower_manifest_builder.main(args)
 

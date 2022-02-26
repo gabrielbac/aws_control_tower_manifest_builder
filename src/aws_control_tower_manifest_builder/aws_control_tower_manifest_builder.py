@@ -101,17 +101,18 @@ def loop_through_files(
     resources = []
     successes = 0
     failures = 0
-    for filename in os.scandir(path):
-        if filename.is_file() and ".yaml" in filename.name:
-            new_input = manifest_type(filename.path, default_region)
+    for filename in sorted(os.listdir(path)):
+        path_to_file = os.path.join(path, filename)
+        if os.path.isfile(path_to_file) and ".yaml" in filename:
+            new_input = manifest_type(path_to_file, default_region)
             if new_input.metadata_dict and not new_input.error:
-                log.info("Processed .. %s", filename.path)
+                log.info("Processed .. %s", path_to_file)
                 resources.append(new_input.metadata_dict)
                 successes += 1
             else:
                 log.info(
                     "Failed to Process .. %s, %sError -> %s",
-                    filename.path,
+                    path_to_file,
                     SPACING,
                     new_input.error,
                 )
