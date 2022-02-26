@@ -72,7 +72,6 @@ class ManifestInput:
         if yaml_dict is None:
             log.error("Error, yaml is empty")
             yaml_dict = {}
-        print(type(yaml_dict))
         return yaml_dict
 
     @staticmethod
