@@ -75,7 +75,7 @@ lint/pylint:
 	pylint --disable=E0101,R1710,W0511 src/aws_control_tower_manifest_builder
 	pylint --disable=E0101,R1710,W0511,R0801,W0622 tests
 
-lint: lint/flake8 lint/pylint lint/black ## check style
+lint: lint/flake8 lint/pylint lint/black check-docs ## check style
 
 test: ## run tests quickly with the default Python
 	PYTHONPATH=./aws_control_tower_manifest_builder python -m pytest -vv
@@ -96,6 +96,9 @@ docs: ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
+
+check-docs: ## checks the format of the docs 
+	python setup.py checkdocs
 
 servedocs: docs ## compile the docs watching for changes
 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
