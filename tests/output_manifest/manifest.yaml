@@ -1,5 +1,5 @@
 region: us-east-1
-version: 22-02-26
+version: 22-03-03
 resources:
 - name: testS3
   resource_file: https://s3.amazonaws.com/solutions-reference/customizations-for-aws-control-tower/latest/custom-control-tower-initiation.template
