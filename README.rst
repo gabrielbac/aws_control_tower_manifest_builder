@@ -41,7 +41,7 @@ Quick start
     Note: the sample template includes incorrecly formatted templates.
 
 For Developers - before pushing a branch (to be replace by tox)
----------------------------------
+---------------------------------------------------------------
 
 1. Clone the repo
 2. ``make venv``
