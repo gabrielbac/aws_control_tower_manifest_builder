@@ -58,8 +58,9 @@ class ManifestInput:
         returns: dict
         """
         yaml_dict = {}
-        yaml = ruamel.yaml.YAML(typ="safe", pure=True)
+        yaml = ruamel.yaml.YAML()
         yaml.default_flow_style = False
+        yaml.preserve_quotes = True
         try:
             if is_file:
                 with open(content, encoding="utf-8") as yaml_file:
