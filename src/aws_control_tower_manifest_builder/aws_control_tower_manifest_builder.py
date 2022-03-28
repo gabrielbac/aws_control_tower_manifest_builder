@@ -24,7 +24,7 @@ def main(args: None):
 
     if args:
         output_manifest_file = os.path.join(args.output, "manifest.yaml")
-        default_region = "us-east-1"
+        default_region = args.default_region
 
     final_report = PrettyTable(["Type", "Successes", "Failures", "Totals"])
 
