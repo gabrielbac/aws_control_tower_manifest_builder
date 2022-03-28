@@ -1,7 +1,7 @@
 .PHONY: clean clean-build clean-pyc clean-test coverage dist docs help install lint lint/flake8 lint/black venv
 .DEFAULT_GOAL := help
 VENV = venv
-VERSION := $(shell git describe --tags --abbrev=0 | sed -Ee 's/^v|-.*//')
+VERSION := $(shell git tag | sort -V | tail -1)
 
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
@@ -134,7 +134,7 @@ BUMP_TARGETS := $(addprefix bump-,$(SEMVER_TYPES))
 .PHONY: $(BUMP_TARGETS)
 $(BUMP_TARGETS): 
 	$(eval bump_type := $(strip $(word 2,$(subst -, ,$@))))
-	bumpversion --verbose --current-version $(VERSION) $(bump_type) setup.py
+	bumpversion --verbose --allow-dirty --current-version $(VERSION) $(bump_type) setup.py
     #$(eval f := $(words $(shell a="$(SEMVER_TYPES)";echo $${a/$(bump_type)*/$(bump_type)} )))
     #@echo -n v
     #@echo $(VERSION) | awk -F. -v OFS=. -v f=$(f) '{ $$f++ } 1'
