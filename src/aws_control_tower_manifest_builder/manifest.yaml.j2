@@ -1,7 +1,7 @@
 ---
 {# AWS CT manifest auto-genrated -#}
 region: {{ region }}
-version: {{ date }}
+version: {{ schema_version }}
 resources: # List of resources
 {%- for resource in resources %}
   - name: {{ resource.name }}

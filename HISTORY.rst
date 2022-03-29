@@ -16,3 +16,9 @@ History
 ------------------
 
 * Fix for the default region option
+
+0.5.0 (2022-03-29)
+------------------
+
+* Add argument to set schema version
+
