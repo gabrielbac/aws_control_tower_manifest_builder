@@ -101,6 +101,14 @@ def main():
         help="the path to store the output manifest.yaml file",
     )
 
+    parser.add_argument(
+        "--schema-version",
+        "-v",
+        required=False,
+        default="2021-03-15",
+        help="Schema Version of the Manifest file",
+    )
+
     try:
         args = parser.parse_args()
     except NotADirectoryError as error:

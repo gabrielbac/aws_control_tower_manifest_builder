@@ -2,7 +2,6 @@
 
 import os
 import sys
-from datetime import date
 from jinja2 import Environment, FileSystemLoader
 from prettytable import PrettyTable
 from . import manifest_input
@@ -65,7 +64,7 @@ def main(args: None):
 
     data = {"resources": cf_resources + scp_resources}
     data["region"] = default_region
-    data["date"] = date.today().strftime("%y-%m-%d")
+    data["schema_version"] = args.schema_version
 
     loaded_environment = Environment(loader=FileSystemLoader(JINJA_MANIFEST_PATH))
     manifest = loaded_environment.get_template("manifest.yaml.j2").render(data)
