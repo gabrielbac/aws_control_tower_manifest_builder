@@ -1,7 +1,7 @@
 .PHONY: clean clean-build clean-pyc clean-test coverage dist docs help install lint lint/flake8 lint/black venv
 .DEFAULT_GOAL := help
 VENV = venv
-VERSION := $(shell git tag | sort -V | tail -1)
+VERSION := $(shell git tag | sort -V | tail -1 | sed 's/v//g')
 
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
