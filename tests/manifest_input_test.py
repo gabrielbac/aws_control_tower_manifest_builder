@@ -72,7 +72,7 @@ good_input_data = [
         {
             "accounts": ["123456789012", "987456123989"],
             "name": "cf_template_minimal",
-            "region": "us-east-1",
+            "regions": ["us-east-1"],
             "resource_file": "tests/sample_templates/cf_template_minimal.yaml",
             "deploy_method": "stack_set",
         },

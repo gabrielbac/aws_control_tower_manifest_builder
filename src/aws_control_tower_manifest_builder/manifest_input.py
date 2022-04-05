@@ -35,7 +35,10 @@ class ManifestInput:
         if "name" not in self.metadata_dict.keys():
             self.metadata_dict["name"] = self.name
         if "regions" not in self.metadata_dict.keys():
-            self.metadata_dict["region"] = self.default_region
+            print(f"Region not found so setting default {self.default_region}")
+            print(type(self.default_region))
+            self.metadata_dict["regions"] = []
+            self.metadata_dict["regions"].append(self.default_region)
         if (
             "accounts" not in self.metadata_dict.keys()
             and "organizational_units" not in self.metadata_dict.keys()

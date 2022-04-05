@@ -57,6 +57,7 @@ resources: # List of resources
     - 987456123989
   deploy_method: stack_set   # scp | stack_set
   regions:
+  - us-east-1
 - name: ec2_deny
   resource_file: tests/sample_scp/ec2_deny.yaml      #<String> [Local File Path, S3 URL]
   deployment_targets:   # account and/or organizational unit names
