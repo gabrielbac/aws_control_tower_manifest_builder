@@ -22,3 +22,9 @@ History
 
 * Add argument to set schema version
 
+0.5.1 (2022-04-24)
+------------------
+
+* Fix issue when leaving region blank not picking default value
+
+
