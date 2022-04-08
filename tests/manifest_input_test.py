@@ -43,13 +43,13 @@ error_input_data = [
         CfTemplate,
         id="Tests error if input file has no required metadata",
     ),
-        pytest.param(
+    pytest.param(
         os.path.join(PATH_TO_CF, "file_not_matching_regex.yaml"),
         "File does not match Regex [a-zA-Z0-0-]+$",
         CfTemplate,
         id="Tests error if input file does not match Regex [a-zA-Z0-0-]+$",
     ),
-        pytest.param(
+    pytest.param(
         os.path.join(PATH_TO_CF, "cf-template-name-not-matching-regex.yaml"),
         "Name in metadata does not match Regex [a-zA-Z0-0-]+$",
         CfTemplate,
