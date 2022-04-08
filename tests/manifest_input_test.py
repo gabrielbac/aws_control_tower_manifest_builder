@@ -57,7 +57,7 @@ good_input_data = [
     pytest.param(
         os.path.join(PATH_TO_SCP, "ec2_deny.yaml"),
         {
-            "name": "ec2_deny",
+            "name": "ec2-deny",
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
             "regions": ["us-east-1", "us-east-2"],
@@ -71,7 +71,7 @@ good_input_data = [
         os.path.join(PATH_TO_CF, "cf_template_minimal.yaml"),
         {
             "accounts": ["123456789012", "987456123989"],
-            "name": "cf_template_minimal",
+            "name": "cf-template-minimal",
             "regions": ["us-east-1"],
             "resource_file": "tests/sample_templates/cf_template_minimal.yaml",
             "deploy_method": "stack_set",
@@ -82,7 +82,7 @@ good_input_data = [
     pytest.param(
         os.path.join(PATH_TO_CF, "cf_template_detailed.yaml"),
         {
-            "name": "detailed_template",
+            "name": "detailed-template",
             "deploy_method": "stack_set",
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],

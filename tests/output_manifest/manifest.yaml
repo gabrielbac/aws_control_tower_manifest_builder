@@ -14,7 +14,7 @@ resources: # List of resources
   regions:
   - us-east-1
   - us-east-2
-- name: detailed_template
+- name: detailed-template
   resource_file: tests/sample_templates/cf_template_detailed.yaml      #<String> [Local File Path, S3 URL]
   deployment_targets:   # account and/or organizational unit names
     accounts:   # array of strings, [0-9]{12}
@@ -49,7 +49,7 @@ resources: # List of resources
   regions:
   - us-east-1
   - us-east-2
-- name: cf_template_minimal
+- name: cf-template-minimal
   resource_file: tests/sample_templates/cf_template_minimal.yaml      #<String> [Local File Path, S3 URL]
   deployment_targets:   # account and/or organizational unit names
     accounts:   # array of strings, [0-9]{12}
@@ -58,7 +58,7 @@ resources: # List of resources
   deploy_method: stack_set   # scp | stack_set
   regions:
   - us-east-1
-- name: ec2_deny
+- name: ec2-deny
   resource_file: tests/sample_scp/ec2_deny.yaml      #<String> [Local File Path, S3 URL]
   deployment_targets:   # account and/or organizational unit names
     accounts:   # array of strings, [0-9]{12}

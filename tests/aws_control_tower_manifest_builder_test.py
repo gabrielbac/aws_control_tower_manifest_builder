@@ -21,7 +21,7 @@ customizations-for-aws-control-tower/latest/custom-control-tower-initiation.temp
             "deploy_method": "stack_set",
         },
         {
-            "name": "detailed_template",
+            "name": "detailed-template",
             "deploy_method": "stack_set",
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
@@ -49,7 +49,7 @@ customizations-for-aws-control-tower/latest/custom-control-tower-initiation.temp
         },
         {
             "accounts": ["123456789012", "987456123989"],
-            "name": "cf_template_minimal",
+            "name": "cf-template-minimal",
             "regions": ["us-east-1"],
             "resource_file": "tests/sample_templates/cf_template_minimal.yaml",
             "deploy_method": "stack_set",
@@ -62,7 +62,7 @@ customizations-for-aws-control-tower/latest/custom-control-tower-initiation.temp
 OUTPUT_SCP = (
     [
         {
-            "name": "ec2_deny",
+            "name": "ec2-deny",
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
             "regions": ["us-east-1", "us-east-2"],

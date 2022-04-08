@@ -30,9 +30,11 @@ class ManifestInput:
             .get("Metadata")
             .get("manifest_parameters")
         )
-        self.name = os.path.basename(filename).split(".")[0]
+        self.name = os.path.basename(filename).split(".")[0].replace("_", "-")
         self.default_region = region
-        if "name" not in self.metadata_dict.keys():
+        if "name" in self.metadata_dict.keys():
+            self.metadata_dict["name"] = self.metadata_dict["name"].replace("_", "-")
+        else:
             self.metadata_dict["name"] = self.name
         if "regions" not in self.metadata_dict.keys():
             print(f"Region not found so setting default {self.default_region}")
