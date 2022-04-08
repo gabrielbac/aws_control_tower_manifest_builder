@@ -31,8 +31,13 @@ class ManifestInput:
             .get("manifest_parameters")
         )
         self.name = os.path.basename(filename).split(".")[0]
+        if not re.match("[a-zA-Z0-9-]+$", self.name):
+            self.error = "File does not match Regex [a-zA-Z0-0-]+$"
         self.default_region = region
-        if "name" not in self.metadata_dict.keys():
+        if "name" in self.metadata_dict.keys():
+            if not re.match("[a-zA-Z0-9-]+$", self.metadata_dict["name"]):
+               self.error = "Name in metadata does not match Regex [a-zA-Z0-0-]+$" 
+        else:
             self.metadata_dict["name"] = self.name
         if "regions" not in self.metadata_dict.keys():
             print(f"Region not found so setting default {self.default_region}")

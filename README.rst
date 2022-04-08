@@ -50,13 +50,18 @@ For Developers - before pushing a branch (to be replace by tox)
 5. ``make test``
 6. ``make local-test``
 
+To bump version:
+1. ``git fetch`` to fetch all tags
+2. ``make bump-<patch-minor-major>``
+3. Update HISTORY.rst
+
 * Cloud Formation templates require a metadata section with the following info:
 
 .. code-block:: yaml
   
    Metadata:
      manifest_parameters:
-     name: detailed_template # Optional. Defaults to the file name. a-z, A-Z, 0-9, and an underscore (_).
+     name: detailed_template # Optional. Defaults to the file name. a-z, A-Z, 0-9, and "-""
      deploy_method: stackset # Optional. All file in the template directory use "stackset" and in policy directory use "scp".
      accounts: ["123456789012", "987456123989"] # Requires "accounts" and/or "organizational_unit". [0-9]{12}
      organizational_units: ["dev", "prod"] # Requires "accounts" and/or "organizational_unit".
