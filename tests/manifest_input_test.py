@@ -14,25 +14,25 @@ PATH_TO_CF = "tests/sample_templates"
 
 error_input_data = [
     pytest.param(
-        os.path.join(PATH_TO_SCP, "scp_missing_json_error.yaml"),
+        os.path.join(PATH_TO_SCP, "scp-missing-json-error.yaml"),
         "File does not have corresponding json file",
         Scp,
         id="Tests error if SCP yaml does not have corresponding json file",
     ),
     pytest.param(
-        os.path.join(PATH_TO_CF, "cf_template_missing_ou_accounts_error.yaml"),
+        os.path.join(PATH_TO_CF, "cf-template-missing-ou-accounts-error.yaml"),
         "Missing OU or accounts",
         CfTemplate,
         id="Tests error if file is missing OU or accounts",
     ),
     pytest.param(
-        os.path.join(PATH_TO_CF, "cf_template_account_wrong_length_error.yaml"),
+        os.path.join(PATH_TO_CF, "cf-template-account-wrong-length-error.yaml"),
         "Account provided is not 12 digit",
         CfTemplate,
         id="Tests error if account provided is not 12 digit",
     ),
     pytest.param(
-        os.path.join(PATH_TO_CF, "cf_template_account_not_string_error.yaml"),
+        os.path.join(PATH_TO_CF, "cf-template-account-not-string-error.yaml"),
         "Account provided is not a string",
         CfTemplate,
         id="Tests error if account provided is not a string",
@@ -42,6 +42,18 @@ error_input_data = [
         "File does not contain the required metadata",
         CfTemplate,
         id="Tests error if input file has no required metadata",
+    ),
+    pytest.param(
+        os.path.join(PATH_TO_CF, "file_not_matching_regex.yaml"),
+        "File does not match Regex [a-zA-Z0-0-]+$",
+        CfTemplate,
+        id="Tests error if input file does not match Regex [a-zA-Z0-0-]+$",
+    ),
+    pytest.param(
+        os.path.join(PATH_TO_CF, "cf-template-name-not-matching-regex.yaml"),
+        "Name in metadata does not match Regex [a-zA-Z0-0-]+$",
+        CfTemplate,
+        id="Tests error if Name in metadata does not match Regex [a-zA-Z0-0-]+$",
     ),
 ]
 
@@ -55,34 +67,34 @@ def test_input_file_throw_error(file_name, error, file_type):
 
 good_input_data = [
     pytest.param(
-        os.path.join(PATH_TO_SCP, "ec2_deny.yaml"),
+        os.path.join(PATH_TO_SCP, "ec2-deny.yaml"),
         {
-            "name": "ec2_deny",
+            "name": "ec2-deny",
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
             "regions": ["us-east-1", "us-east-2"],
-            "resource_file": "tests/sample_scp/ec2_deny.yaml",
+            "resource_file": "tests/sample_scp/ec2-deny.yaml",
             "deploy_method": "scp",
         },
         Scp,
         id="Tests that SCP yaml is proceesed correctly",
     ),
     pytest.param(
-        os.path.join(PATH_TO_CF, "cf_template_minimal.yaml"),
+        os.path.join(PATH_TO_CF, "cf-template-minimal.yaml"),
         {
             "accounts": ["123456789012", "987456123989"],
-            "name": "cf_template_minimal",
+            "name": "cf-template-minimal",
             "regions": ["us-east-1"],
-            "resource_file": "tests/sample_templates/cf_template_minimal.yaml",
+            "resource_file": "tests/sample_templates/cf-template-minimal.yaml",
             "deploy_method": "stack_set",
         },
         CfTemplate,
         id="Tests that input file with only required args is processed",
     ),
     pytest.param(
-        os.path.join(PATH_TO_CF, "cf_template_detailed.yaml"),
+        os.path.join(PATH_TO_CF, "cf-template-detailed.yaml"),
         {
-            "name": "detailed_template",
+            "name": "detailed-template",
             "deploy_method": "stack_set",
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
@@ -97,27 +109,27 @@ good_input_data = [
                     "value": "$[output_ApplicationId]",
                 }
             ],
-            "resource_file": "tests/sample_templates/cf_template_detailed.yaml",
+            "resource_file": "tests/sample_templates/cf-template-detailed.yaml",
         },
         CfTemplate,
         id="Tests that input file with all args is processed",
     ),
     pytest.param(
-        os.path.join(PATH_TO_CF, "cf_template_local.yaml"),
+        os.path.join(PATH_TO_CF, "cf-template-local.yaml"),
         {
             "name": "templateLocalIAM",
             "description": "Template to deploy baseline IAM resources",
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
             "regions": ["us-east-1", "us-east-2"],
-            "resource_file": "tests/sample_templates/cf_template_local.yaml",
+            "resource_file": "tests/sample_templates/cf-template-local.yaml",
             "deploy_method": "stack_set",
         },
         CfTemplate,
         id="Tests that input file local file is processed",
     ),
     pytest.param(
-        os.path.join(PATH_TO_CF, "cf_template_S3.yaml"),
+        os.path.join(PATH_TO_CF, "cf-template-S3.yaml"),
         {
             "name": "testS3",
             "resource_file": "https://s3.amazonaws.com/solutions-reference/\

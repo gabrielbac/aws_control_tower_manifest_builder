@@ -21,7 +21,7 @@ customizations-for-aws-control-tower/latest/custom-control-tower-initiation.temp
             "deploy_method": "stack_set",
         },
         {
-            "name": "detailed_template",
+            "name": "detailed-template",
             "deploy_method": "stack_set",
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
@@ -36,7 +36,7 @@ customizations-for-aws-control-tower/latest/custom-control-tower-initiation.temp
                     "value": "$[output_ApplicationId]",
                 }
             ],
-            "resource_file": "tests/sample_templates/cf_template_detailed.yaml",
+            "resource_file": "tests/sample_templates/cf-template-detailed.yaml",
         },
         {
             "name": "templateLocalIAM",
@@ -44,29 +44,29 @@ customizations-for-aws-control-tower/latest/custom-control-tower-initiation.temp
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
             "regions": ["us-east-1", "us-east-2"],
-            "resource_file": "tests/sample_templates/cf_template_local.yaml",
+            "resource_file": "tests/sample_templates/cf-template-local.yaml",
             "deploy_method": "stack_set",
         },
         {
             "accounts": ["123456789012", "987456123989"],
-            "name": "cf_template_minimal",
+            "name": "cf-template-minimal",
             "regions": ["us-east-1"],
-            "resource_file": "tests/sample_templates/cf_template_minimal.yaml",
+            "resource_file": "tests/sample_templates/cf-template-minimal.yaml",
             "deploy_method": "stack_set",
         },
     ],
     4,
-    4,
+    6,
 )
 
 OUTPUT_SCP = (
     [
         {
-            "name": "ec2_deny",
+            "name": "ec2-deny",
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
             "regions": ["us-east-1", "us-east-2"],
-            "resource_file": "tests/sample_scp/ec2_deny.yaml",
+            "resource_file": "tests/sample_scp/ec2-deny.yaml",
             "deploy_method": "scp",
         }
     ],

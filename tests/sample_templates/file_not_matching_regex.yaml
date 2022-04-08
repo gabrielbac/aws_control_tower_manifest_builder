@@ -1,0 +1,7 @@
+Metadata:
+  manifest_parameters:
+    name: testS3
+    resource_file: https://s3.amazonaws.com/solutions-reference/customizations-for-aws-control-tower/latest/custom-control-tower-initiation.template
+    accounts: ["123456789012", "987456123989"]
+    organizational_units: ["dev", "prod"]
+    regions: ["us-east-1" , "us-east-2"]
