@@ -1,0 +1,37 @@
+Metadata:
+  manifest_parameters:
+    name: templateLocalIAM
+    description: "Template to deploy baseline IAM resources"
+    accounts: ["123456789012", "987456123989"]
+    organizational_units: ["dev", "prod"]
+    regions: ["us-east-1" , "us-east-2"]
+
+Parameters:
+  BucketArn:
+    Description: Arn of the bucket created by the Customization of Control Tower.
+    Type: String
+
+Resources:
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ControlTowerCustomizationPipelineUploadS3
+      Policies:
+        - PolicyName: AllowUploadToS3
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - s3:PutObject
+                  - s3:PutObjectAcl
+                  - s3:PutObjectVersionAcl
+                  - s3:ListBucket
+                Resource: !Sub 'arn:aws:s3:::${BucketArn}/*'
+      Tags: 
+        - Key: "Created by"
+          Value: "Created by Control Tower Customization"
+
+Outputs:
+  Role:
+    Value: !GetAtt Role.Arn 
