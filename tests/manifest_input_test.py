@@ -83,15 +83,9 @@ good_input_data = [
         os.path.join(PATH_TO_CF, "cf-template-minimal.yaml"),
         {
             "accounts": ["123456789012", "987456123989"],
-<<<<<<< HEAD
             "name": "cf-template-minimal",
             "regions": ["us-east-1"],
             "resource_file": "tests/sample_templates/cf-template-minimal.yaml",
-=======
-            "name": "cf_template_minimal",
-            "regions": ["us-east-1"],
-            "resource_file": "tests/sample_templates/cf_template_minimal.yaml",
->>>>>>> d8412d04cb910c64346675f06e2ddb07c1dea817
             "deploy_method": "stack_set",
         },
         CfTemplate,

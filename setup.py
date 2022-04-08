@@ -52,10 +52,6 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/gabrielbac/aws_control_tower_manifest_builder",
-<<<<<<< HEAD
     version="0.5.2",
-=======
-    version="0.5.1",
->>>>>>> d8412d04cb910c64346675f06e2ddb07c1dea817
     zip_safe=False,
 )

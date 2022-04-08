@@ -61,7 +61,7 @@ To bump version:
   
    Metadata:
      manifest_parameters:
-     name: detailed_template # Optional. Defaults to the file name. a-z, A-Z, 0-9, and "-""
+     name: detailed_template # Optional. Defaults to the file name. a-z, A-Z, 0-9, and "-"
      deploy_method: stackset # Optional. All file in the template directory use "stackset" and in policy directory use "scp".
      accounts: ["123456789012", "987456123989"] # Requires "accounts" and/or "organizational_unit". [0-9]{12}
      organizational_units: ["dev", "prod"] # Requires "accounts" and/or "organizational_unit".

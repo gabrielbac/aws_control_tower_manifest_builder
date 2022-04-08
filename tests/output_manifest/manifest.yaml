@@ -14,13 +14,8 @@ resources: # List of resources
   regions:
   - us-east-1
   - us-east-2
-<<<<<<< HEAD
 - name: detailed-template
   resource_file: tests/sample_templates/cf-template-detailed.yaml      #<String> [Local File Path, S3 URL]
-=======
-- name: detailed_template
-  resource_file: tests/sample_templates/cf_template_detailed.yaml      #<String> [Local File Path, S3 URL]
->>>>>>> d8412d04cb910c64346675f06e2ddb07c1dea817
   deployment_targets:   # account and/or organizational unit names
     accounts:   # array of strings, [0-9]{12}
     - 123456789012
@@ -42,11 +37,7 @@ resources: # List of resources
   - us-east-2
 - name: templateLocalIAM
   description: Template to deploy baseline IAM resources
-<<<<<<< HEAD
   resource_file: tests/sample_templates/cf-template-local.yaml      #<String> [Local File Path, S3 URL]
-=======
-  resource_file: tests/sample_templates/cf_template_local.yaml      #<String> [Local File Path, S3 URL]
->>>>>>> d8412d04cb910c64346675f06e2ddb07c1dea817
   deployment_targets:   # account and/or organizational unit names
     accounts:   # array of strings, [0-9]{12}
     - 123456789012
@@ -58,13 +49,8 @@ resources: # List of resources
   regions:
   - us-east-1
   - us-east-2
-<<<<<<< HEAD
 - name: cf-template-minimal
   resource_file: tests/sample_templates/cf-template-minimal.yaml      #<String> [Local File Path, S3 URL]
-=======
-- name: cf_template_minimal
-  resource_file: tests/sample_templates/cf_template_minimal.yaml      #<String> [Local File Path, S3 URL]
->>>>>>> d8412d04cb910c64346675f06e2ddb07c1dea817
   deployment_targets:   # account and/or organizational unit names
     accounts:   # array of strings, [0-9]{12}
     - 123456789012
@@ -72,13 +58,8 @@ resources: # List of resources
   deploy_method: stack_set   # scp | stack_set
   regions:
   - us-east-1
-<<<<<<< HEAD
 - name: ec2-deny
   resource_file: tests/sample_scp/ec2-deny.yaml      #<String> [Local File Path, S3 URL]
-=======
-- name: ec2_deny
-  resource_file: tests/sample_scp/ec2_deny.yaml      #<String> [Local File Path, S3 URL]
->>>>>>> d8412d04cb910c64346675f06e2ddb07c1dea817
   deployment_targets:   # account and/or organizational unit names
     accounts:   # array of strings, [0-9]{12}
     - 123456789012
