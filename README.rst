@@ -54,6 +54,7 @@ To bump version:
 1. ``git fetch`` to fetch all tags
 2. ``make bump-<patch-minor-major>``
 3. Update HISTORY.rst
+4. Make a release in Github and add a tag. 
 
 * Cloud Formation templates require a metadata section with the following info:
 
