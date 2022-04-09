@@ -32,4 +32,9 @@ History
 
 * Fail if files name or name in metadata dont match regex
 
+0.5.3 (2022-04-09)
+------------------
+
+* Fix in logging and update to Readme
+
 
