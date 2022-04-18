@@ -78,8 +78,8 @@ def main(args: None):
     log.info(final_report)
 
     if args.abort_if_error and (cf_failures + scp_failures) > 0:
-        log.info("Skiping writing output YAML file due to failures")
-        sys.exit(0)
+        log.info("Skipping writing output YAML file due to failures")
+        sys.exit(1)
     log.info("Writing output YAML file %s", output_manifest_file)
     manifest_input.ManifestInput.write_yaml(output_manifest_file, manifest_dict)
 
