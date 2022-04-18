@@ -37,4 +37,9 @@ History
 
 * Fix in logging and update to Readme
 
+0.5.4 (2022-04-18)
+------------------
+
+* Exit with error when there is an issue in any manifest file
+
 
