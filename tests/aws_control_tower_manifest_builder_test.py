@@ -66,12 +66,13 @@ OUTPUT_SCP = (
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
             "regions": ["us-east-1", "us-east-2"],
-            "resource_file": "tests/sample_scp/ec2-deny.yaml",
+            "resource_file": "tests/sample_scp/ec2-deny.json",
             "deploy_method": "scp",
+            "description": "ec2 deny",
         }
     ],
     1,
-    1,
+    2,
 )
 
 input_data = [
