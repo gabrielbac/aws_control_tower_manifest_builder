@@ -42,4 +42,9 @@ History
 
 * Exit with error when there is an issue in any manifest file
 
+0.6.0 (2022-05-18)
+------------------
+
+* Enforce description in SCP and correct extension
+
 
