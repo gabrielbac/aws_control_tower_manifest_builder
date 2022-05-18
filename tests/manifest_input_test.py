@@ -14,6 +14,12 @@ PATH_TO_CF = "tests/sample_templates"
 
 error_input_data = [
     pytest.param(
+        os.path.join(PATH_TO_SCP, "scp-missing-description.yaml"),
+        "SCP Missing description",
+        Scp,
+        id="Tests error if SCP yaml is issing description",
+    ),
+    pytest.param(
         os.path.join(PATH_TO_SCP, "scp-missing-json-error.yaml"),
         "File does not have corresponding json file",
         Scp,
@@ -73,8 +79,9 @@ good_input_data = [
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
             "regions": ["us-east-1", "us-east-2"],
-            "resource_file": "tests/sample_scp/ec2-deny.yaml",
+            "resource_file": "tests/sample_scp/ec2-deny.json",
             "deploy_method": "scp",
+            "description": "ec2 deny",
         },
         Scp,
         id="Tests that SCP yaml is proceesed correctly",

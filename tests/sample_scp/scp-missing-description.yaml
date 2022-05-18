@@ -1,6 +1,5 @@
 Metadata:
   manifest_parameters:
-    description: any desc
     name: org-deny
     accounts: ["123456789012", "987456123989"]
     organizational_units: ["dev", "prod"]

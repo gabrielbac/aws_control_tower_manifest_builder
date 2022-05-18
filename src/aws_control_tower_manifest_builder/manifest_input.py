@@ -125,10 +125,12 @@ class Scp(ManifestInput):
         self.error = ""
         self.deploy_method = "scp"
         self.metadata_dict = {}
-        file = filename.replace("yaml", "json")
         if not os.path.exists(filename.replace("yaml", "json")):
-            print(f"lookign for {file} if exist ")
+            print(f"looking for {filename} if exist ")
             self.error = "File does not have corresponding json file"
         super().__init__(filename, region)
+        if "description" not in self.metadata_dict.keys():
+            self.error = "SCP Missing description"
         self.filename = filename.replace("yaml", "json")
+        self.metadata_dict["resource_file"] = self.filename
         self.metadata_dict["deploy_method"] = self.deploy_method

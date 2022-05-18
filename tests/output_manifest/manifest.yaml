@@ -59,7 +59,8 @@ resources: # List of resources
   regions:
   - us-east-1
 - name: ec2-deny
-  resource_file: tests/sample_scp/ec2-deny.yaml      #<String> [Local File Path, S3 URL]
+  description: ec2 deny
+  resource_file: tests/sample_scp/ec2-deny.json      #<String> [Local File Path, S3 URL]
   deployment_targets:   # account and/or organizational unit names
     accounts:   # array of strings, [0-9]{12}
     - 123456789012
