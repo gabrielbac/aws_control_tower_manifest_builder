@@ -11,63 +11,104 @@ from src.aws_control_tower_manifest_builder.manifest_input import (
 DEFAULT_REGION = "us-east-1"
 PATH_TO_SCP = "tests/sample_scp"
 PATH_TO_CF = "tests/sample_templates"
+METADATA_NAME = "manifest_parameters"
+ENFORCE_ACCOUNT_NUMBER_ONLY = False
 
 error_input_data = [
     pytest.param(
         os.path.join(PATH_TO_SCP, "scp-missing-description.yaml"),
         "SCP Missing description",
         Scp,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests error if SCP yaml is issing description",
     ),
     pytest.param(
         os.path.join(PATH_TO_SCP, "scp-missing-json-error.yaml"),
         "File does not have corresponding json file",
         Scp,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests error if SCP yaml does not have corresponding json file",
     ),
     pytest.param(
         os.path.join(PATH_TO_CF, "cf-template-missing-ou-accounts-error.yaml"),
         "Missing OU or accounts",
         CfTemplate,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests error if file is missing OU or accounts",
     ),
     pytest.param(
         os.path.join(PATH_TO_CF, "cf-template-account-wrong-length-error.yaml"),
         "Account provided is not 12 digit",
         CfTemplate,
+        METADATA_NAME,
+        True,
         id="Tests error if account provided is not 12 digit",
     ),
     pytest.param(
         os.path.join(PATH_TO_CF, "cf-template-account-not-string-error.yaml"),
         "Account provided is not a string",
         CfTemplate,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests error if account provided is not a string",
+    ),
+    pytest.param(
+        os.path.join(PATH_TO_CF, "cf-template-account-id-and-name.yaml"),
+        "Account provided is not 12 digit",
+        CfTemplate,
+        METADATA_NAME,
+        True,
+        id="Tests if enforcing only account IDs work",
     ),
     pytest.param(
         os.path.join(PATH_TO_CF, "empty.yaml"),
         "File does not contain the required metadata",
         CfTemplate,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests error if input file has no required metadata",
     ),
     pytest.param(
         os.path.join(PATH_TO_CF, "file_not_matching_regex.yaml"),
         "File does not match Regex [a-zA-Z0-0-]+$",
         CfTemplate,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests error if input file does not match Regex [a-zA-Z0-0-]+$",
     ),
     pytest.param(
         os.path.join(PATH_TO_CF, "cf-template-name-not-matching-regex.yaml"),
         "Name in metadata does not match Regex [a-zA-Z0-0-]+$",
         CfTemplate,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests error if Name in metadata does not match Regex [a-zA-Z0-0-]+$",
+    ),
+    pytest.param(
+        os.path.join(PATH_TO_CF, "cf-template-not-default-metadata-name.yaml"),
+        "File does not contain the required metadata",
+        CfTemplate,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
+        id="Tests if name in metadata is incorrect",
     ),
 ]
 
 
-@pytest.mark.parametrize("file_name, error, file_type", error_input_data)
-def test_input_file_throw_error(file_name, error, file_type):
+@pytest.mark.parametrize(
+    "file_name, error, file_type, metadata_name, enforce_account_number_only",
+    error_input_data,
+)
+def test_input_file_throw_error(
+    file_name, error, file_type, metadata_name, enforce_account_number_only
+):
     """Test that input file throw error"""
-    new_input = file_type(file_name, DEFAULT_REGION)
+    new_input = file_type(
+        file_name, DEFAULT_REGION, metadata_name, enforce_account_number_only
+    )
     assert new_input.error == error
 
 
@@ -84,6 +125,8 @@ good_input_data = [
             "description": "ec2 deny",
         },
         Scp,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests that SCP yaml is proceesed correctly",
     ),
     pytest.param(
@@ -96,6 +139,8 @@ good_input_data = [
             "deploy_method": "stack_set",
         },
         CfTemplate,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests that input file with only required args is processed",
     ),
     pytest.param(
@@ -119,6 +164,8 @@ good_input_data = [
             "resource_file": "tests/sample_templates/cf-template-detailed.yaml",
         },
         CfTemplate,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests that input file with all args is processed",
     ),
     pytest.param(
@@ -133,6 +180,8 @@ good_input_data = [
             "deploy_method": "stack_set",
         },
         CfTemplate,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests that input file local file is processed",
     ),
     pytest.param(
@@ -147,15 +196,40 @@ customizations-for-aws-control-tower/latest/custom-control-tower-initiation.temp
             "deploy_method": "stack_set",
         },
         CfTemplate,
+        METADATA_NAME,
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
         id="Tests that input file with template is S3 is processed",
+    ),
+    pytest.param(
+        os.path.join(PATH_TO_CF, "cf-template-not-default-metadata-name.yaml"),
+        {
+            "accounts": ["123456789012"],
+            "deploy_method": "stack_set",
+            "description": "Template to deploy S3 buckets",
+            "name": "AccountNotString",
+            "organizational_units": ["dev", "prod"],
+            "regions": ["us-east-1", "us-east-2"],
+            "resource_file": "tests/sample_templates/cf-template-not-default-metadata-name.yaml",
+        },
+        CfTemplate,
+        "wrong_metadata_name",
+        ENFORCE_ACCOUNT_NUMBER_ONLY,
+        id="Test that input files with non-default metadata work",
     ),
 ]
 
 
-@pytest.mark.parametrize("file_name, error, file_type", good_input_data)
-def test_input_file(file_name, error, file_type):
+@pytest.mark.parametrize(
+    "file_name, error, file_type, metadata_name, enforce_account_number_only",
+    good_input_data,
+)
+def test_input_file(
+    file_name, error, file_type, metadata_name, enforce_account_number_only
+):
     """Test that input files are processed correctly"""
-    new_input = file_type(file_name, DEFAULT_REGION)
+    new_input = file_type(
+        file_name, DEFAULT_REGION, metadata_name, enforce_account_number_only
+    )
     assert new_input.metadata_dict == error
 
 

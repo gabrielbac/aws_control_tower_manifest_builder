@@ -1,74 +1,16 @@
 region: us-east-1
 version: 2021-03-15
 resources: # List of resources
-- name: testS3
-  resource_file: https://s3.amazonaws.com/solutions-reference/customizations-for-aws-control-tower/latest/custom-control-tower-initiation.template      #<String> [Local File Path, S3 URL]
+- name: AccountNotString
+  description: Template to deploy S3 buckets
+  resource_file: tests/sample_templates/cf-template-not-default-metadata-name.yaml      #<String> [Local File Path, S3 URL]
   deployment_targets:   # account and/or organizational unit names
     accounts:   # array of strings, [0-9]{12}
     - 123456789012
-    - 987456123989
     organizational_units:   #array of strings
     - dev
     - prod
   deploy_method: stack_set   # scp | stack_set
-  regions:
-  - us-east-1
-  - us-east-2
-- name: detailed-template
-  resource_file: tests/sample_templates/cf-template-detailed.yaml      #<String> [Local File Path, S3 URL]
-  deployment_targets:   # account and/or organizational unit names
-    accounts:   # array of strings, [0-9]{12}
-    - 123456789012
-    - 987456123989
-    organizational_units:   #array of strings
-    - dev
-    - prod
-  deploy_method: stack_set   # scp | stack_set
-  parameters:   # List of parameters [SSM, Alfred, Values]
-  - parameter_key: parameter1
-    parameter_value: value1
-  - parameter_key: parameter2
-    parameter_value: value2
-  export_outputs:   # list of ssm parameters to store output values
-  - name: /org/member/test-ssm/app-id
-    value: $[output_ApplicationId]
-  regions:
-  - us-east-1
-  - us-east-2
-- name: templateLocalIAM
-  description: Template to deploy baseline IAM resources
-  resource_file: tests/sample_templates/cf-template-local.yaml      #<String> [Local File Path, S3 URL]
-  deployment_targets:   # account and/or organizational unit names
-    accounts:   # array of strings, [0-9]{12}
-    - 123456789012
-    - 987456123989
-    organizational_units:   #array of strings
-    - dev
-    - prod
-  deploy_method: stack_set   # scp | stack_set
-  regions:
-  - us-east-1
-  - us-east-2
-- name: cf-template-minimal
-  resource_file: tests/sample_templates/cf-template-minimal.yaml      #<String> [Local File Path, S3 URL]
-  deployment_targets:   # account and/or organizational unit names
-    accounts:   # array of strings, [0-9]{12}
-    - 123456789012
-    - 987456123989
-  deploy_method: stack_set   # scp | stack_set
-  regions:
-  - us-east-1
-- name: ec2-deny
-  description: ec2 deny
-  resource_file: tests/sample_scp/ec2-deny.json      #<String> [Local File Path, S3 URL]
-  deployment_targets:   # account and/or organizational unit names
-    accounts:   # array of strings, [0-9]{12}
-    - 123456789012
-    - 987456123989
-    organizational_units:   #array of strings
-    - dev
-    - prod
-  deploy_method: scp   # scp | stack_set
   regions:
   - us-east-1
   - us-east-2

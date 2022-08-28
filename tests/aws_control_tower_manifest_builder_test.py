@@ -7,17 +7,34 @@ from src.aws_control_tower_manifest_builder.aws_control_tower_manifest_builder i
 from src.aws_control_tower_manifest_builder.manifest_input import Scp, CfTemplate
 
 DEFAULT_REGION = "us-east-1"
-
+METADATA_NAME = "manifest_parameters"
+ENFORCE_ACCOUNT_NUMBER_ONLY = False
 
 OUTPUT_CF = (
     [
         {
             "name": "testS3",
-            "resource_file": "https://s3.amazonaws.com/solutions-reference/\
-customizations-for-aws-control-tower/latest/custom-control-tower-initiation.template",
+            "resource_file": "https://s3.amazonaws.com/solutions-reference/customizations-for-aws-control-tower/latest/custom-control-tower-initiation.template",
             "accounts": ["123456789012", "987456123989"],
             "organizational_units": ["dev", "prod"],
             "regions": ["us-east-1", "us-east-2"],
+            "deploy_method": "stack_set",
+        },
+        {
+            "name": "twoAccounts",
+            "accounts": ["123456789555", "Account-name"],
+            "organizational_units": ["dev", "prod"],
+            "regions": ["us-east-1", "us-east-2"],
+            "resource_file": "tests/sample_templates/cf-template-account-id-and-name.yaml",
+            "deploy_method": "stack_set",
+        },
+        {
+            "name": "templateLocalS3",
+            "description": "Template to deploy S3 buckets",
+            "accounts": ["123456789012", "123"],
+            "organizational_units": ["dev", "prod"],
+            "regions": ["us-east-1", "us-east-2"],
+            "resource_file": "tests/sample_templates/cf-template-account-wrong-length-error.yaml",
             "deploy_method": "stack_set",
         },
         {
@@ -55,7 +72,7 @@ customizations-for-aws-control-tower/latest/custom-control-tower-initiation.temp
             "deploy_method": "stack_set",
         },
     ],
-    4,
+    6,
     6,
 )
 
@@ -84,19 +101,25 @@ input_data = [
 @pytest.mark.parametrize("path, manifest_type, default_region, output", input_data)
 def test_loop_through_files_success(path, manifest_type, default_region, output):
     """Test that number of successes match"""
-    response = loop_through_files(path, manifest_type, default_region)
+    response = loop_through_files(
+        path, manifest_type, default_region, METADATA_NAME, ENFORCE_ACCOUNT_NUMBER_ONLY
+    )
     assert response[1] == output[1]
 
 
 @pytest.mark.parametrize("path, manifest_type, default_region, output", input_data)
 def test_loop_through_files_failures(path, manifest_type, default_region, output):
     """Test that number of failures match"""
-    response = loop_through_files(path, manifest_type, default_region)
+    response = loop_through_files(
+        path, manifest_type, default_region, METADATA_NAME, ENFORCE_ACCOUNT_NUMBER_ONLY
+    )
     assert response[2] == output[2]
 
 
 @pytest.mark.parametrize("path, manifest_type, default_region, output", input_data)
 def test_loop_through_files_resources(path, manifest_type, default_region, output):
     """Test that output matches"""
-    response = loop_through_files(path, manifest_type, default_region)
+    response = loop_through_files(
+        path, manifest_type, default_region, METADATA_NAME, ENFORCE_ACCOUNT_NUMBER_ONLY
+    )
     assert response[0] == output[0]

@@ -1,0 +1,6 @@
+Metadata:
+  manifest_parameters:
+    name: twoAccounts
+    accounts: ["123456789555", "Account-name"]
+    organizational_units: ["dev", "prod"]
+    regions: ["us-east-1" , "us-east-2"]

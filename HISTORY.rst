@@ -47,4 +47,10 @@ History
 
 * Enforce description in SCP and correct extension
 
+0.7.0 (2022-08-28)
+------------------
 
+* Added 2 new options
+    --metadata-name -> to customize the name in the metadata
+    --enforce-account-number-only ->  Allows to enforce use of 12 digit account numbers
+    The input scps folder is not mandatory anymore

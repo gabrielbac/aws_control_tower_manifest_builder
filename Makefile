@@ -128,6 +128,9 @@ make local-test: local-dist local-install
 	aws_control_tower_manifest_builder --input-cf tests/sample_templates \
 	--input-scp tests/sample_scp \
 	--output tests/output_manifest --default-region us-east-1
+	aws_control_tower_manifest_builder --input-cf tests/sample_templates \
+	--input-scp tests/sample_scp \
+	--output tests/output_manifest --default-region us-east-1 --metadata-name "wrong_metadata_name"
 
 SEMVER_TYPES := major minor patch
 BUMP_TARGETS := $(addprefix bump-,$(SEMVER_TYPES))
