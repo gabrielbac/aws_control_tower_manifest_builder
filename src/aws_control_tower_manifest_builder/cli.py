@@ -8,8 +8,6 @@ from aws_control_tower_manifest_builder import logger
 
 log = logger.get_logger(__name__)
 
-# TODO: Add verification for inputs
-# TODO: Fix Tox. Add
 # TODO: adding final schema validation
 # TODO: Read me and Docs. connect github and read the docs account.
 
@@ -88,7 +86,6 @@ def main():
         "-s",
         metavar="/path/",
         type=dir_path,
-        required=True,
         help="the path to the directory containing the service control policy \
             input files",
     )
@@ -107,6 +104,23 @@ def main():
         required=False,
         default="2021-03-15",
         help="Schema Version of the Manifest file",
+    )
+
+    parser.add_argument(
+        "--metadata-name",
+        "-m",
+        required=False,
+        default="manifest_parameters",
+        help="Name for the input metadata",
+    )
+
+    parser.add_argument(
+        "--enforce-account-number-only",
+        "-e",
+        required=False,
+        default=False,
+        type=str2bool,
+        help="True to enforce accepting 12 digit account IDs only",
     )
 
     try:

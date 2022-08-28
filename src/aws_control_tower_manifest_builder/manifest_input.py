@@ -10,7 +10,7 @@ log = logger.get_logger(__name__)
 class ManifestInput:
     """Base Class for SCP and Manifest Objects"""
 
-    def __init__(self, filename, region):
+    def __init__(self, filename, region, metadata_name, enforce_account_number_only):
         """
         Base Object to structure Manifest and SCP objects
 
@@ -21,14 +21,12 @@ class ManifestInput:
         self.filename = filename
         file_dict = self.load_yaml(self.filename, True)
         try:
-            file_dict["Metadata"]["manifest_parameters"]
+            file_dict["Metadata"][metadata_name]
         except KeyError:
             self.error = "File does not contain the required metadata"
             return {}, self.error
         self.metadata_dict = (
-            self.load_yaml(self.filename, True)
-            .get("Metadata")
-            .get("manifest_parameters")
+            self.load_yaml(self.filename, True).get("Metadata").get(metadata_name)
         )
         self.name = os.path.basename(filename).split(".")[0]
         if not re.match("[a-zA-Z0-9-]+$", self.name):
@@ -53,7 +51,7 @@ class ManifestInput:
             for account in self.metadata_dict.get("accounts"):
                 if not isinstance(account, str):
                     self.error = "Account provided is not a string"
-                elif not re.match("[0-9]{12}", account):
+                elif enforce_account_number_only and not re.match("[0-9]{12}", account):
                     self.error = "Account provided is not 12 digit"
         if "resource_file" not in self.metadata_dict.keys():
             self.metadata_dict["resource_file"] = self.filename
@@ -102,14 +100,14 @@ class CfTemplate(ManifestInput):
     Object for structuring CFN Templates
     """
 
-    def __init__(self, filename, region):
+    def __init__(self, filename, region, metadata_name, enforce_account_number_only):
         """
         Object for structuring CFN Templates
         """
         self.error = ""
         self.metadata_dict = {}
         self.deploy_method = "stack_set"
-        super().__init__(filename, region)
+        super().__init__(filename, region, metadata_name, enforce_account_number_only)
         self.metadata_dict["deploy_method"] = self.deploy_method
 
 
@@ -118,7 +116,7 @@ class Scp(ManifestInput):
     Object for structuring CFN Templates
     """
 
-    def __init__(self, filename, region):
+    def __init__(self, filename, region, metadata_name, enforce_account_number_only):
         """
         Object for structuring CFN Templates
         """
@@ -128,7 +126,7 @@ class Scp(ManifestInput):
         if not os.path.exists(filename.replace("yaml", "json")):
             print(f"looking for {filename} if exist ")
             self.error = "File does not have corresponding json file"
-        super().__init__(filename, region)
+        super().__init__(filename, region, metadata_name, enforce_account_number_only)
         if "description" not in self.metadata_dict.keys():
             self.error = "SCP Missing description"
         self.filename = filename.replace("yaml", "json")
