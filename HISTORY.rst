@@ -54,3 +54,9 @@ History
     --metadata-name -> to customize the name in the metadata
     --enforce-account-number-only ->  Allows to enforce use of 12 digit account numbers
     The input scps folder is not mandatory anymore
+
+0.8.0 (2022-09-08)
+------------------
+
+* Added 1 new option
+    --enable_stack_set_deletion -> defaults to False. Set to True to enable the CT pipeline to delete stacksets.

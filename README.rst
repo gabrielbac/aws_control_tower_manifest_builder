@@ -40,7 +40,7 @@ Quick start
 3. Run ``aws_control_tower_manifest_builder --input-cf sample_templates --input-scp sample_scp --output output_manifest``
     Note: the sample template includes incorrecly formatted templates.
 
-For Developers - before pushing a branch (to be replace by tox)
+For Developers - before pushing a branch
 ---------------------------------------------------------------
 
 1. Clone the repo
@@ -51,9 +51,9 @@ For Developers - before pushing a branch (to be replace by tox)
 6. ``make local-test``
 
 To bump version:
-1. ``git fetch`` to fetch all tags
-2. ``make bump-<patch-minor-major>``
-3. Update HISTORY.rst
+1. Update HISTORY.rst
+2. ``git fetch`` to fetch all tags
+3. ``make bump-<patch-minor-major>``
 4. Make a release in Github and add a tag. 
 
 * Cloud Formation templates require a metadata section with the following info:
