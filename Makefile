@@ -73,7 +73,7 @@ lint/black: ## check style with black
 	black --check src tests
 lint/pylint:
 	pylint --disable=E0101,R1710,W0511 src/aws_control_tower_manifest_builder
-	pylint --disable=E0101,R1710,W0511,R0801,W0622 tests
+	pylint --disable=E0101,R1710,W0511,R0801,W0622,C0301 tests
 
 lint: lint/flake8 lint/pylint lint/black check-docs ## check style
 

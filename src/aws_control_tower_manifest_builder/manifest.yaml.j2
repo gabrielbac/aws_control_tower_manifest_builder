@@ -2,6 +2,7 @@
 {# AWS CT manifest auto-genrated -#}
 region: {{ region }}
 version: {{ schema_version }}
+enable_stack_set_deletion: {{ enable_stack_set_deletion }} 
 resources: # List of resources
 {%- for resource in resources %}
   - name: {{ resource.name }}

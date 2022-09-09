@@ -123,6 +123,15 @@ def main():
         help="True to enforce accepting 12 digit account IDs only",
     )
 
+    parser.add_argument(
+        "--enable_stack_set_deletion",
+        "-d",
+        required=False,
+        default=False,
+        type=str2bool,
+        help="True to enable stackset deletion",
+    )
+
     try:
         args = parser.parse_args()
     except NotADirectoryError as error:

@@ -72,6 +72,7 @@ def main(args: None):
     data = {"resources": cf_resources + scp_resources}
     data["region"] = args.default_region
     data["schema_version"] = args.schema_version
+    data["enable_stack_set_deletion"] = args.enable_stack_set_deletion
 
     loaded_environment = Environment(loader=FileSystemLoader(JINJA_MANIFEST_PATH))
     manifest = loaded_environment.get_template("manifest.yaml.j2").render(data)
