@@ -52,7 +52,6 @@ clean-build: ## remove build artifacts
 	find . -name '*.egg' -exec rm -fr {} +
 
 clean-pyc: ## remove Python file artifacts
-	rm -rf $(VENV)
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
@@ -107,8 +106,9 @@ release: dist ## package and upload a release
 	twine upload dist/*
 
 dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+	. $(VENV)/bin/activate; \
+	pip install setuptools wheel; \
+	python setup.py sdist bdist_wheel; \
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
