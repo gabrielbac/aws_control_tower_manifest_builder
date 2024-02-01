@@ -206,7 +206,7 @@ customizations-for-aws-control-tower/latest/custom-control-tower-initiation.temp
             "accounts": ["123456789012"],
             "deploy_method": "stack_set",
             "description": "Template to deploy S3 buckets",
-            "name": "AccountNotString",
+            "name": "AccountString",
             "organizational_units": ["dev", "prod"],
             "regions": ["us-east-1", "us-east-2"],
             "resource_file": "tests/sample_templates/cf-template-not-default-metadata-name.yaml",
