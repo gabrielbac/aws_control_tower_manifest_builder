@@ -14,7 +14,7 @@ resources: # List of resources
       {%- if resource.accounts %}
       accounts: # array of strings, [0-9]{12}
       {%- for account in resource.accounts %}
-        - {{ account }}
+        - "{{ account }}"
       {%- endfor %} 
       {%- endif %}
       {%- if resource.organizational_units %}

@@ -1,6 +1,6 @@
 Metadata:
   wrong_metadata_name:
-    name: AccountNotString
+    name: AccountString
     description: "Template to deploy S3 buckets"
     accounts: ["123456789012"]
     organizational_units: ["dev", "prod"]
