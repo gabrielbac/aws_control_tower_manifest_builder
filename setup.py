@@ -13,8 +13,7 @@ with open("HISTORY.rst") as history_file:
 requirements = [
     "ruamel.yaml==0.17.20",
     "prettytable==3.0.0",
-    "Jinja2==3.0.3",
-    "fire==0.4.0",
+    "Jinja2==3.1.3",
 ]
 
 test_requirements = [
