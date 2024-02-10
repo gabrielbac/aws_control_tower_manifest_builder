@@ -5,9 +5,9 @@ version: {{ schema_version }}
 enable_stack_set_deletion: {{ enable_stack_set_deletion }} 
 resources: # List of resources
 {%- for resource in resources %}
-  - name: {{ resource.name }}
+  - name: "{{ resource.name }}"
     {%- if resource.description %}
-    description: {{ resource.description }}
+    description: "{{ resource.description }}"
     {%- endif %}
     resource_file: {{ resource.resource_file }}    #<String> [Local File Path, S3 URL]
     deployment_targets: # account and/or organizational unit names
@@ -20,7 +20,7 @@ resources: # List of resources
       {%- if resource.organizational_units %}
       organizational_units: #array of strings
       {%- for ou in resource.organizational_units %}
-        - {{ ou }}
+        - "{{ ou }}"
       {%- endfor %} 
       {%- endif %}
     deploy_method: {{ resource.deploy_method }} # scp | stack_set
@@ -40,6 +40,6 @@ resources: # List of resources
     {%- endif %}
     regions:
     {%- for region in resource.regions %}
-      - {{ region }}
+      - "{{ region }}"
     {%- endfor %} 
 {%- endfor %} 

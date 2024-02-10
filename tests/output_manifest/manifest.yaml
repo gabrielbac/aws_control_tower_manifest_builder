@@ -2,16 +2,16 @@ region: us-east-1
 version: 2021-03-15
 enable_stack_set_deletion: false
 resources: # List of resources
-- name: AccountString
-  description: Template to deploy S3 buckets
+- name: "AccountString"
+  description: "Template to deploy S3 buckets"
   resource_file: tests/sample_templates/cf-template-not-default-metadata-name.yaml      #<String> [Local File Path, S3 URL]
   deployment_targets:   # account and/or organizational unit names
     accounts:   # array of strings, [0-9]{12}
     - "123456789012"
     organizational_units:   #array of strings
-    - dev
-    - prod
+    - "dev"
+    - "prod"
   deploy_method: stack_set   # scp | stack_set
   regions:
-  - us-east-1
-  - us-east-2
+  - "us-east-1"
+  - "us-east-2"

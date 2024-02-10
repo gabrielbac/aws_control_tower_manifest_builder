@@ -73,7 +73,7 @@ OUTPUT_CF = (
         },
     ],
     6,
-    6,
+    7,
 )
 
 OUTPUT_SCP = (

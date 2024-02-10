@@ -77,6 +77,9 @@ def main(args: None):
     loaded_environment = Environment(loader=FileSystemLoader(JINJA_MANIFEST_PATH))
     manifest = loaded_environment.get_template("manifest.yaml.j2").render(data)
     manifest_dict = manifest_input.ManifestInput.load_yaml(manifest, False)
+    if manifest_dict == {}:
+        log.info("Skipping writing output YAML because it is empty. String not formatted correctly.")
+        sys.exit(1)
 
     log.info(
         "Results from procesing \n CF templates %s \n SCPs %s",
